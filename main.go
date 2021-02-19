@@ -49,4 +49,9 @@ func handler(c *gin.Context) {
 	var users []user.User
 	db.Find(&users)
 	c.JSON(http.StatusOK, users)
+
+	// handler
+	// service
+	// repository
+	// db
 }
