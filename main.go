@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"gostartup/handler"
 	"gostartup/user"
 	"log"
@@ -23,32 +22,13 @@ func main() {
 	userRepository := user.NewRepository(db)
 	userService := user.NewService(userRepository)
 
-	input := user.LoginInput{
-		Email:    "email@gmail.com",
-		Password: "password",
-	}
-
-	user, err := userService.Login(input)
-	if err != nil {
-		fmt.Println("Terjadi kesalahan")
-		fmt.Println(err.Error())
-	}
-
-	fmt.Println(user.Email)
-	fmt.Println(user.Name)
-
 	userHandler := handler.NewUserHandler(userService)
 
 	router := gin.Default()
 	api := router.Group("/api/v1")
 
 	api.POST("/users", userHandler.RegisterUser)
+	api.POST("/sessions", userHandler.Login)
 
 	router.Run()
-
-	//input dari user
-	//handler, mapping input dari user -> struct input
-	//service : melakukan mapping dari  struct input ke struct user
-	//repository
-	//db
 }
