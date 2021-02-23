@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+	"gostartup/auth"
 	"gostartup/handler"
 	"gostartup/user"
 	"log"
@@ -21,6 +23,10 @@ func main() {
 
 	userRepository := user.NewRepository(db)
 	userService := user.NewService(userRepository)
+
+	authService := auth.NewService()
+
+	fmt.Println(authService.GenerateToken(1))
 
 	userHandler := handler.NewUserHandler(userService)
 
