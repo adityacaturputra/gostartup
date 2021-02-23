@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"gostartup/helper"
 	"gostartup/user"
 	"net/http"
@@ -152,7 +153,10 @@ func (h *userHandler) UploadAvatar(c *gin.Context) {
 		return
 	}
 
-	path := "images/" + file.Filename
+	// harusnya dapat dari JWT, tapi sabar yah :)
+	userID := 1
+
+	path := fmt.Sprintf("images/%d-%s", userID, file.Filename)
 
 	err = c.SaveUploadedFile(file, path)
 	if err != nil {
@@ -161,9 +165,6 @@ func (h *userHandler) UploadAvatar(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
-
-	// harusnya dapat dari JWT, tapi sabar yah :)
-	userID := 1
 
 	_, err = h.userService.SaveAvatar(userID, path)
 	if err != nil {
