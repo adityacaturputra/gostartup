@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"gostartup/auth"
 	"gostartup/handler"
 	"gostartup/user"
@@ -24,23 +23,6 @@ func main() {
 	userRepository := user.NewRepository(db)
 	userService := user.NewService(userRepository)
 	authService := auth.NewService()
-
-	token, err := authService.ValidateToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyfQ.2u8lhzif5Is-VYpl0d5PwdI8W4xsw6laLN_PIrJQmC4")
-	if err != nil {
-		fmt.Println("ERROR")
-		fmt.Println("ERROR")
-		fmt.Println("ERROR")
-	}
-
-	if token.Valid {
-		fmt.Println("VALID")
-		fmt.Println("VALID")
-		fmt.Println("VALID")
-	} else {
-		fmt.Println("INVALID")
-		fmt.Println("INVALID")
-		fmt.Println("INVALID")
-	}
 
 	userHandler := handler.NewUserHandler(userService, authService)
 
