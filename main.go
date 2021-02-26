@@ -3,8 +3,11 @@ package main
 import (
 	"gostartup/auth"
 	"gostartup/handler"
+	"gostartup/helper"
 	"gostartup/user"
 	"log"
+	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
@@ -37,6 +40,24 @@ func main() {
 	// api.GET("/users/fetch", authMiddleware(authService, userService), userHandler.FetchUser)
 
 	router.Run()
+}
+
+func authMiddleware(c *gin.Context) {
+
+	authHeader := c.GetHeader("Authorization")
+
+	if !strings.Contains(authHeader, "Bearer") {
+		response := helper.APIResponse("Unauthorized", http.StatusUnauthorized, "error", nil)
+		c.AbortWithStatusJSON(http.StatusUnauthorized, response)
+		return
+	}
+
+	// Bearer tokentokentoken
+	var tokenString string
+	arrayToken := strings.Split(authHeader, " ")
+	if len(arrayToken) == 2 {
+		tokenString = arrayToken[1]
+	}
 }
 
 // ambil nilai header Authorization
