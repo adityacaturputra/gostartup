@@ -35,28 +35,31 @@ func main() {
 	api.POST("/users", userHandler.RegisterUser)
 	api.POST("/sessions", userHandler.Login)
 	api.POST("/email_checkers", userHandler.CheckEmailAvailability)
-	api.POST("/avatars", userHandler.UploadAvatar)
+	api.POST("/avatars", authMiddleware(authService, userService), userHandler.UploadAvatar)
 
 	// api.GET("/users/fetch", authMiddleware(authService, userService), userHandler.FetchUser)
 
 	router.Run()
 }
 
-func authMiddleware(c *gin.Context) {
+func authMiddleware(authService auth.Service, userService user.Service) gin.HandlerFunc {
 
-	authHeader := c.GetHeader("Authorization")
+	return func(c *gin.Context) {
 
-	if !strings.Contains(authHeader, "Bearer") {
-		response := helper.APIResponse("Unauthorized", http.StatusUnauthorized, "error", nil)
-		c.AbortWithStatusJSON(http.StatusUnauthorized, response)
-		return
-	}
+		authHeader := c.GetHeader("Authorization")
 
-	// Bearer tokentokentoken
-	var tokenString string
-	arrayToken := strings.Split(authHeader, " ")
-	if len(arrayToken) == 2 {
-		tokenString = arrayToken[1]
+		if !strings.Contains(authHeader, "Bearer") {
+			response := helper.APIResponse("Unauthorized", http.StatusUnauthorized, "error", nil)
+			c.AbortWithStatusJSON(http.StatusUnauthorized, response)
+			return
+		}
+
+		// Bearer tokentokentoken
+		var tokenString string
+		arrayToken := strings.Split(authHeader, " ")
+		if len(arrayToken) == 2 {
+			tokenString = arrayToken[1]
+		}
 	}
 }
 
