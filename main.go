@@ -38,3 +38,10 @@ func main() {
 
 	router.Run()
 }
+
+// ambil nilai header Authorization
+// dari header auhorization, kita ambil tokennya saja
+// kita validasi token
+// kita ambil user_id
+// ambil user dari db berdasarkan user_id lewat service
+// kita set context isinya user
