@@ -42,7 +42,7 @@ func main() {
 		fmt.Println(campaign.Name)
 	}
 
-	userCampaigns, err := campaignRepository.FindByUserID(2)
+	userCampaigns, err := campaignRepository.FindByUserID(1)
 
 	fmt.Println("debug")
 	fmt.Println("debug")
@@ -53,6 +53,7 @@ func main() {
 	fmt.Println("jumlah seluruh campaign user 2", len(userCampaigns))
 	for _, campaign := range userCampaigns {
 		fmt.Println(campaign.Name)
+		fmt.Println(campaign.CampaignImages[0].FileName)
 	}
 	return
 
