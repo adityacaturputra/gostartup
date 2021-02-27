@@ -27,34 +27,13 @@ func main() {
 	}
 
 	userRepository := user.NewRepository(db)
-
 	campaignRepository := campaign.NewRepository(db)
-	campaigns, err := campaignRepository.FindAll()
 
-	fmt.Println("debug")
-	fmt.Println("debug")
-	fmt.Println("debug")
-	fmt.Println("jumlah seluruh campaign", len(campaigns))
-	if err != nil {
-		fmt.Println(err, campaigns)
-	}
-	for _, campaign := range campaigns {
-		fmt.Println(campaign.Name)
-	}
+	campaignService := campaign.NewService(campaignRepository)
+	campaign, _ := campaignService.FindCampaigns(8)
+	fmt.Println(campaign)
+	fmt.Println(len(campaign))
 
-	userCampaigns, err := campaignRepository.FindByUserID(1)
-
-	fmt.Println("debug")
-	fmt.Println("debug")
-	fmt.Println("debug")
-	if err != nil {
-		fmt.Println(err, userCampaigns)
-	}
-	fmt.Println("jumlah seluruh campaign user 2", len(userCampaigns))
-	for _, campaign := range userCampaigns {
-		fmt.Println(campaign.Name)
-		fmt.Println(campaign.CampaignImages[0].FileName)
-	}
 	return
 
 	userService := user.NewService(userRepository)
