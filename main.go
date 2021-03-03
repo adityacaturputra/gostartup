@@ -45,6 +45,7 @@ func main() {
 	api.POST("/avatars", authMiddleware(authService, userService), userHandler.UploadAvatar)
 
 	api.GET("/campaigns", campaignsHandler.GetCampaigns)
+	api.GET("/campaigns/:id", campaignsHandler.GetCampaign)
 
 	// api.GET("/users/fetch", authMiddleware(authService, userService), userHandler.FetchUser)
 
