@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"gostartup/auth"
 	"gostartup/campaign"
 	"gostartup/handler"
@@ -32,6 +33,24 @@ func main() {
 	campaignService := campaign.NewService(campaignRepository)
 	authService := auth.NewService()
 
+	// testing
+	input := campaign.CreateCampaignInput{}
+	input.Name = "Galang untuk the warrior"
+	input.ShortDescription = "bersediakah anda?"
+	input.Description = "bersediakah anda menjadi pendukung the warriors?"
+	input.Perks = "menjadi the warriors, mendapat teman, didukung geng"
+	input.GoalAmount = 100000000
+	inputUser, _ := userService.GetUserByID(2)
+	input.User = inputUser
+
+	newCampaign, err := campaignService.CreateCampaign(input)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	fmt.Println(newCampaign)
+
+	return
+	// end test
 	userHandler := handler.NewUserHandler(userService, authService)
 	campaignsHandler := handler.NewCampaignHandler(campaignService)
 
